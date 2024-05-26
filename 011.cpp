@@ -1,62 +1,51 @@
 #include <iostream>
-#include <cmath> 
 using namespace std ;
 
-bool PrimeCheck(int x){
-    int var = 0;
-    for (int i = 1 ; i<=x ; i++){
-        if (x % i == 0){
-            var++;
+int GCD(int a){
+    int b , d ;
+    for (int i = 2 ; i <= a ; i++){
+        b = i;
+        d = a;
+        while (b!=0){
+            int c = d % b;
+            d = b ;
+            b = c ;
         }
-    }
-    if (var==2){
-        return true;
-    }
-    else{
-        return false;
+        if (d == 1){
+            return i;break;
+        }
+        else {
+            continue;
+        }
     }
 }
 
-int UCLN(int a , int b){
-    int c = 1;
-    while (c!=0){
-        c = a % b;
-        a = b;
-        b = c;
-    }
-    return a;  
-}
-bool CarmichealCheck(int x, int n){                 //(x mux t) mod n = var
-    int t = n - 1;      
-    long long var = 1;
-    while (t > 0) {                                //"thuat toan luy thua nhi phan
-        if (t % 2 == 1) {
-            var = (var * x) % n;
-            t--;
-        } else {
-            x = ((long long)x * x) % n;
-            t /= 2;
-        }                                           //"
-    }
-    if (var == 1){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-int main(){
-    int n ; 
-    cout<<"n = ";cin>>n;
-    for (int j = 1 ; j < n ; j++){
-        if (PrimeCheck(n) == false){
-            for (int i = 2 ; i < n ; i++){
-                if (UCLN(i,n) == 1){
-                    if (CarmichealCheck(i,n)==true){
-                        cout<<j<<" ";
-                    }
-                }
+int Fermat(int n ){
+    for (int i = 2 ; i < n ; i++){                  //x^y = var (mod i)
+        int x = GCD(i);
+        int y = i-1;
+        int var = 1;
+        while(y!=0){
+            if (y % 2 == 0){
+                x = ((long long)x * x ) % i;
+                y = y / 2;
+            }
+            else {
+                var = (var * x) % i;
+                y --;
             }
         }
+        if (var == 1){
+            cout<<i<<" ";
+        }
+        else {
+            continue;
+        }
     }
+}
+
+
+int main(){
+    int n ; cout<< "n = "; cin>>n;
+    Fermat(n);
 }
