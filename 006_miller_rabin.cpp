@@ -33,7 +33,7 @@ int MillerRabin(int n){                           //( n -1) = 2^k * m
     int b;
     for (int i = 2 ; i < n -2 ; i++){
         b = i;
-    cout<<" \n"<<b<<"\n";
+    
     //tinh a^m mod n
         while(m != 0){
             if (m % 2 == 0){
