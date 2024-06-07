@@ -2,49 +2,71 @@
 #include  <math.h>
 using namespace std ;
 
+int GCD(int a , int b){
+    int c = 1;
+    while (c!=0){
+        c = a % b;
+        a = b;
+        b = c;
+    }
+    return a;  
+}
+
+
 int MillerRabin(int n){                           //( n -1) = 2^k * m
-    int k , m;
+    int k , m ;
     int a = n -1 ;
     k = 0;
-
     //phan tich n -1 =  2^k * m
     int var0 = 1;                               //var0 = 2^k
     while (a % 2 == 0){
-    a = a / 2;
-    k++;
-    var0 = var0 * 2;
+        a = a / 2;
+        k++;
+        var0 = var0 * 2;
     }
     m = (n-1) / var0;
+    cout<<"\n\t"<<n<<" - 1 = 2^"<<k<<" * "<<m;
 
-    for (int i = 2 ; i < n-1 ; i++){
 
-        //truong hop : a^m = 1
-        int b = i;                                 
-        for (int i = 0 ; i < m-1; i++){
-            b = ( b * 3) % n;
-        }
-        if (b == 1){
-            cout<<n<<" is a Prime number";
-            exit(0);
-        }
 
-        //truonghop : a^[(2^r)*m] = -1 
-        int var1;                                    //var1 =   2^r        
-        int c = i;
-        for (int i = 0 ; i < k-1 ; i++){
-            var1 = 1;
-            var1 = (var1 * 2) % n;
-            int var2 = var1 * m;                    //var2 = (2^r) * m;
-            for (int i = 0 ; i < var1;i++){
-                c = (c*2) % n;
+    int result = 1;
+    int b;
+    for (int i = 2 ; i < n -2 ; i++){
+        b = i;
+    cout<<" \n"<<b<<"\n";
+    //tinh a^m mod n
+        while(m != 0){
+            if (m % 2 == 0){
+                m = m / 2;
+                b = ((long long)(b*b)) % n;
             }
-            if (c == -1){
-                cout<<n<<" is a Prime number";
-                exit(0);
+            else{
+                m--;
+                result = ((long long)(result * b)) % n;
             }
+        }
+    //
+        if (result != 1 && result != n-1){
+            int c = 1;
+            while (c <=k && result != (n-1)){
+                result = ((long long)(result * result)) % n;
+                if (result == 1){
+                    cout<<"\n "<<n<<" is a composite .";
+                    exit(0);
+                }
+                c++;
+            }
+            
         }
     }
-    cout<<n<<" is not a Prime number";
+    if (result != n-1){
+            cout<<"\n "<<n<<" is a composite .";
+            cout<<"?????";
+            exit(0);
+    }
+    cout<<"\n "<<n<<" is a prime number .";
+    
+
 }
 
 int main(){
