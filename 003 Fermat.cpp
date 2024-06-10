@@ -1,49 +1,32 @@
 #include <iostream>
 using namespace std ;
 
-int GCD(int a){
-    int b , d ;
-    for (int i = 2 ; i <= a ; i++){
-        b = i;
-        d = a;
-        while (b!=0){
-            int c = d % b;
-            d = b ;
-            b = c ;
-        }
-        if (d == 1){
-            return i;break;
-        }
-        else {
-            continue;
-        }
-    }
-}
-
 int Fermat(int n ){
-    for (int i = 2 ; i < n ; i++){                  //x^y = var (mod i)
-        int x = GCD(i);
-        int y = i-1;
-        int var = 1;
-        while(y!=0){
-            if (y % 2 == 0){
-                x = ((long long)x * x ) % i;
-                y = y / 2;
+    int a , t , result;
+    for (int i = 0 ; i < n - 2 ; i ++){
+        a = 2;
+        t = n - 1;
+        result = 1;
+        while(t != 0){
+            if (t % 2 == 0){
+                t = t/2;
+                a = ((long long)(a * a)) % n;
             }
             else {
-                var = (var * x) % i;
-                y --;
+                t--;
+                result = ((long long)(result * a)) % n;
             }
         }
-        if (var == 1){
-            cout<<i<<" ";
+        if (result != 1){
+            cout<<"\n"<<n<<" is a composite .";
+            exit(0);
         }
         else {
-            continue;
+            a++;
         }
     }
+    cout<<"\n"<<n<<" is a prime .";
 }
-
 
 int main(){
     int n ; cout<< "n = "; cin>>n;
