@@ -1,0 +1,42 @@
+#include <iostream>                     
+using namespace std ;
+
+int UCLN(int a , int b){
+    int c = 1;
+    while (c!=0){
+        c = a % b;
+        a = b;
+        b = c;
+    }
+    return a;  
+}
+
+int Pollard (int n ){
+    int a = 2;
+    int b = 2;
+    int d;
+    while (a != 0){
+        a = (int(a*a + 1 )) % n;
+        b = (int(b*b + 1 )) % n;
+        b = (int(b*b + 1 )) % n;
+        int var = a-b;
+        d = UCLN(var,n);
+        if (d == 1){
+            continue;
+        }
+        else if (d == n){
+            cout<<"Can't do it ";
+            break;
+        }
+        else if (d > 1 && d != n ){                        
+            int var1 = n / d;
+            cout<<"n = "<<d<<" x "<<var1 ;
+            break;
+        }
+    }
+}
+int main(){
+    int n;
+    cout<<"n = ";cin>>n;
+   Pollard(n);
+}
