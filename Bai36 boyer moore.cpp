@@ -1,0 +1,69 @@
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+vector<int> Buildtable(const string& pattern) {
+    vector<int> table(256, -1);
+    for (int i = 0; i < pattern.length(); i++) {
+        table[pattern[i]] = i;
+    }
+    return table;
+}
+
+int Min(int a , int b){
+    if (a>b){
+        return b;
+    }
+    else if (a<b){
+        return a;
+    }
+    else if (a == b){
+        return a;
+    }
+}
+
+void Check(string &text, string &pattern) {
+    int m = pattern.length();
+    int i = m - 1;
+    int j = m - 1;
+    vector<int> table = Buildtable(pattern);
+
+    for (int k = 0 ; k < table.size() ; k++){
+        if (table[k] != -1){
+            char charactor ;
+            charactor = static_cast<char>(k);
+            cout << charactor << " " << table[k] << endl;
+        }
+    }
+
+    while (i < text.length()) {
+        if (text[i] == pattern[j]) {
+            if (j == 0) {
+                cout << "Pattern found at index!! "<< endl;
+                return;
+            }
+            i--;
+            j--;
+        } else {
+            i = i + m - Min(j, 1 + table[text[i]]);
+            j = m - 1;
+        }
+    }
+    cout << "Pattern not found in the text!!" << endl;
+
+}
+
+int main() {
+    string text, pattern;
+
+    cout << "Text: ";
+    getline(cin,text);
+
+    cout << "Pattern: ";
+    getline(cin,pattern);
+
+    Check(text,pattern);
+
+    return 0;
+}
